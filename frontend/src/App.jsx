@@ -8,6 +8,8 @@ import "highlight.js/styles/github-dark.css";
 import axios from 'axios'
 import './App.css'
 
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/+$/, '')
+
 function App() {
   const [ count, setCount ] = useState(0)
   const [ code, setCode ] = useState(` function sum() {
@@ -26,12 +28,12 @@ function App() {
     setLoading(true)
     setReview(`Reviewing...`)
     try {
-      const response = await axios.post('http://localhost:3000/ai/get-review', { code })
+      const response = await axios.post(`${API_URL}/ai/get-review`, { code })
       setReview(response.data)
     } catch (error) {
       const message = error.response
         ? `${error.response.status}: ${error.response.data}`
-        : `Cannot reach backend at http://localhost:3000. Is the server running?`
+        : `Cannot reach backend at ${API_URL}. Is the server running?`
       setReview(`**Error** — ${message}`)
     } finally {
       setLoading(false)
