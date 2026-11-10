@@ -10,6 +10,17 @@ import './App.css'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/+$/, '')
 
+function rateLimitMessage(response) {
+  const seconds = Number(response.headers['retry-after'])
+  if (!seconds) return `${response.data}`
+  const wait = seconds >= 3600
+    ? `${Math.ceil(seconds / 3600)} hour(s)`
+    : seconds >= 60
+      ? `${Math.ceil(seconds / 60)} minute(s)`
+      : `${seconds} second(s)`
+  return `${response.data} Try again in about ${wait}.`
+}
+
 function App() {
   const [ count, setCount ] = useState(0)
   const [ code, setCode ] = useState(` function sum() {
@@ -31,9 +42,11 @@ function App() {
       const response = await axios.post(`${API_URL}/ai/get-review`, { code })
       setReview(response.data)
     } catch (error) {
-      const message = error.response
-        ? `${error.response.status}: ${error.response.data}`
-        : `Cannot reach backend at ${API_URL}. Is the server running?`
+      const message = !error.response
+        ? `Cannot reach backend at ${API_URL}. Is the server running?`
+        : error.response.status === 429
+          ? rateLimitMessage(error.response)
+          : `${error.response.status}: ${error.response.data}`
       setReview(`**Error** — ${message}`)
     } finally {
       setLoading(false)
