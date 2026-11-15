@@ -66,3 +66,226 @@ main .right {
   font-size: 1.5rem;
   overflow: auto;
 }
+
+/* ---------- Accounts and history ---------- */
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  min-height: 0;
+  padding-top: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.topbar .brand {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.topbar button,
+.modal button,
+.history button {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button.primary {
+  background-color: rgb(219, 219, 255);
+  color: #000000;
+}
+
+button.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.link {
+  background: none;
+  border: none;
+  color: #9a9fff;
+  padding: 0.25rem;
+}
+
+button.icon {
+  background: none;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* History panel */
+main .history {
+  flex: 0 0 16rem;
+  height: 100%;
+  background-color: #1b1b1b;
+  border-radius: 0.7rem;
+  padding: 1rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-header h2 {
+  font-size: 1rem;
+}
+
+.history ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.history li {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.history li:hover {
+  background-color: #2a2a2a;
+}
+
+.history li.active {
+  background-color: #33335a;
+}
+
+.history-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.history-title {
+  font-family: "Fira code", "Fira Mono", monospace;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-date {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.history-empty {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* Login / sign-up modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.modal {
+  width: 100%;
+  max-width: 22rem;
+  background-color: #1f1f1f;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 0.7rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal h2 {
+  font-size: 1.3rem;
+}
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.modal input {
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid #444;
+  background-color: #111;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.modal-hint {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.form-error {
+  color: #ff8a8a;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 800px) {
+  main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  main .left,
+  main .right,
+  main .history {
+    flex-basis: auto;
+    min-height: 60vh;
+  }
+
+  main .history {
+    min-height: auto;
+    max-height: 40vh;
+  }
+
+  .user-email {
+    display: none;
+  }
+}

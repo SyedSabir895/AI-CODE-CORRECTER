@@ -1,5 +1,7 @@
 const express = require('express');
 const aiRoutes = require('./routes/ai.routes')
+const authRoutes = require('./routes/auth.routes')
+const reviewsRoutes = require('./routes/reviews.routes')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const { MAX_CODE_CHARS } = require('./controllers/ai.controller')
@@ -27,7 +29,7 @@ app.use(cors({
         return callback(null, false)
     },
     // Let the frontend read how long to wait after hitting a limit
-    exposedHeaders: ['Retry-After', 'RateLimit', 'RateLimit-Policy']
+    exposedHeaders: ['Retry-After', 'RateLimit', 'RateLimit-Policy', 'X-Review-Id']
 }))
 
 app.use(express.json({ limit: '100kb' }))
@@ -68,6 +70,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/ai', perIpLimiter, dailyLimiter, aiRoutes)
+app.use('/auth', authRoutes)
+app.use('/reviews', reviewsRoutes)
 
 // Turn oversized or malformed JSON bodies into readable errors
 app.use((err, req, res, next) => {
